@@ -1,0 +1,15 @@
+{
+	"ImportPath": "github.com/mg6maciej/quoridor-ai/ai",
+	"GoVersion": "go1.3.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Rev": "d6577e08ec30538639ac0ea38b562b6f250e9055"
+		},
+		{
+			"ImportPath": "gopkg.in/fatih/set.v0",
+			"Comment": "v0.1.0-2-g2e93c92",
+			"Rev": "2e93c922a811785383cbc5d11ce77d7a46eed26c"
+		}
+	]
+}

@@ -5,20 +5,20 @@ import (
 	"gopkg.in/fatih/set.v0"
 )
 
-func AlphaBeta(pos *model.MutablePosition, depth int, maximizingPlayer bool) []string {
-	_, bestMoves := alphaBetaImpl(pos, depth, -1000000000, 1000000000, maximizingPlayer)
+func AlphaBeta(pos *model.MutablePosition, depth int) []string {
+	_, bestMoves := alphaBetaImpl(pos, depth, -1000000000, 1000000000)
 	return bestMoves
 }
 
-func alphaBetaImpl(pos *model.MutablePosition, depth int, alpha int, beta int, maximizingPlayer bool) (int, []string) {
+func alphaBetaImpl(pos *model.MutablePosition, depth int, alpha int, beta int) (int, []string) {
 	if depth == 0 || pos.Finished() {
 		return pos.Eval(), []string{}
 	}
-	if maximizingPlayer {
+	if pos.WhiteActive() {
 		var bestMoves []string
 		for _, move := range set.StringSlice(pos.LegalMoves()) {
 			pos.Move(move)
-			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta, false)
+			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos.Takeback()
 			if alpha < value {
 				alpha = value
@@ -34,7 +34,7 @@ func alphaBetaImpl(pos *model.MutablePosition, depth int, alpha int, beta int, m
 		var bestMoves []string
 		for _, move := range set.StringSlice(pos.LegalMoves()) {
 			pos.Move(move)
-			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta, true)
+			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos.Takeback()
 			if beta > value {
 				beta = value

@@ -8,14 +8,14 @@ import (
 
 func TestMoveForwardAsFirstBestMove(t *testing.T) {
 	pos := model.NewPosition()
-	moves := AlphaBeta(pos, 1, true)
+	moves := AlphaBeta(pos, 1)
 	assert.Equal(t, 1, len(moves))
 	assert.Equal(t, "e2", moves[0])
 }
 
 func TestMoveForwardAsSecondBestMove(t *testing.T) {
 	pos := model.NewPosition("e2")
-	moves := AlphaBeta(pos, 1, false)
+	moves := AlphaBeta(pos, 1)
 	assert.Equal(t, 1, len(moves))
 	assert.Equal(t, "e8", moves[0])
 }

@@ -11,7 +11,7 @@ func main() {
 	pos := model.NewPosition()
 	for i := 1; i <= 10; i++ {
 		start := time.Now()
-		moves := ai.AlphaBeta(pos, i, true)
+		moves := ai.AlphaBeta(pos, i)
 		elapsed := time.Since(start)
 		fmt.Printf("%v %s\n", moves, elapsed)
 	}

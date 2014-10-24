@@ -9,7 +9,6 @@ type Position interface {
 	WhiteWallsLeft() int
 	BlackWallsLeft() int
 	Walls() []string
-	Eval() int
 }
 
 func NewPosition(moves ...string) Position {

@@ -12,7 +12,7 @@ func AlphaBeta(pos model.Position, depth int) []string {
 
 func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, []string) {
 	if depth == 0 || model.Finished(pos) {
-		return pos.Eval(), []string{}
+		return model.Eval(pos), []string{}
 	}
 	if pos.WhiteActive() {
 		var bestMoves []string

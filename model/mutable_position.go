@@ -4,10 +4,6 @@ type MutablePosition struct {
 	moves []string
 }
 
-func (pos *MutablePosition) Finished() bool {
-	return []rune(pos.White())[1] == '9' || []rune(pos.Black())[1] == '1'
-}
-
 func (pos *MutablePosition) Move(move string) Position {
 	pos.moves = append(pos.moves, move)
 	return pos

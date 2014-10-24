@@ -5,7 +5,6 @@ import (
 )
 
 type Position interface {
-	Finished() bool
 	Move(move string) Position
 	Takeback() Position
 	White() string
@@ -19,4 +18,8 @@ type Position interface {
 
 func NewPosition(moves ...string) Position {
 	return &MutablePosition{moves}
+}
+
+func Finished(pos Position) bool {
+	return []rune(pos.White())[1] == '9' || []rune(pos.Black())[1] == '1'
 }

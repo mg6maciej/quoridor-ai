@@ -16,3 +16,7 @@ type Position interface {
 	Eval() int
 	LegalMoves() *set.Set
 }
+
+func NewPosition(moves ...string) Position {
+	return &MutablePosition{moves}
+}

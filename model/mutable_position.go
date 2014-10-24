@@ -4,20 +4,18 @@ type MutablePosition struct {
 	moves []string
 }
 
-func NewPosition(moves ...string) *MutablePosition {
-	return &MutablePosition{moves}
-}
-
 func (pos *MutablePosition) Finished() bool {
 	return []rune(pos.White())[1] == '9' || []rune(pos.Black())[1] == '1'
 }
 
-func (pos *MutablePosition) Move(move string) {
+func (pos *MutablePosition) Move(move string) Position {
 	pos.moves = append(pos.moves, move)
+	return pos
 }
 
-func (pos *MutablePosition) Takeback() {
+func (pos *MutablePosition) Takeback() Position {
 	pos.moves = pos.moves[:len(pos.moves)-1]
+	return pos
 }
 
 func (pos *MutablePosition) White() string {

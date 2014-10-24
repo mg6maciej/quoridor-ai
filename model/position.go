@@ -11,8 +11,16 @@ type Position interface {
 	Walls() []string
 }
 
+//func NewPosition(moves ...string) Position {
+//	return &MutablePosition{moves}
+//}
+
 func NewPosition(moves ...string) Position {
-	return &MutablePosition{moves}
+	var pos Position = &ImmutablePosition{white: "e1", black: "e9", whiteActive: true, whiteWallsLeft: 10, blackWallsLeft: 10, walls: []string{}}
+	for _, move := range moves {
+		pos = pos.Move(move)
+	}
+	return pos
 }
 
 func Finished(pos Position) bool {

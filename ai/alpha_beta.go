@@ -16,7 +16,7 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, []s
 	}
 	if pos.WhiteActive() {
 		var bestMoves []string
-		for _, move := range set.StringSlice(pos.LegalMoves()) {
+		for _, move := range set.StringSlice(model.LegalMoves(pos)) {
 			pos = pos.Move(move)
 			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos = pos.Takeback()
@@ -32,7 +32,7 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, []s
 		return alpha, bestMoves
 	} else {
 		var bestMoves []string
-		for _, move := range set.StringSlice(pos.LegalMoves()) {
+		for _, move := range set.StringSlice(model.LegalMoves(pos)) {
 			pos = pos.Move(move)
 			value, childMoves := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos = pos.Takeback()

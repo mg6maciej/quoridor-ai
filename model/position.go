@@ -1,9 +1,5 @@
 package model
 
-import (
-	"gopkg.in/fatih/set.v0"
-)
-
 type Position interface {
 	Move(move string) Position
 	Takeback() Position
@@ -12,8 +8,8 @@ type Position interface {
 	WhiteActive() bool
 	WhiteWallsLeft() int
 	BlackWallsLeft() int
+	Walls() []string
 	Eval() int
-	LegalMoves() *set.Set
 }
 
 func NewPosition(moves ...string) Position {

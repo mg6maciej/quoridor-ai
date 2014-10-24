@@ -57,3 +57,13 @@ func (pos *MutablePosition) BlackWallsLeft() int {
 	}
 	return wallsLeft
 }
+
+func (pos *MutablePosition) Walls() []string {
+	walls := make([]string, 0, len(pos.moves))
+	for _, move := range pos.moves {
+		if len(move) == 3 {
+			walls = append(walls, move)
+		}
+	}
+	return walls
+}

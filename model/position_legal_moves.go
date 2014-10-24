@@ -4,14 +4,14 @@ import (
 	"gopkg.in/fatih/set.v0"
 )
 
-func (pos *MutablePosition) LegalMoves() *set.Set {
+func LegalMoves(pos Position) *set.Set {
 	moves := set.New()
-	moves.Merge(pos.getPawnMoves())
-	moves.Merge(pos.getWallsMoves())
+	moves.Merge(getPawnMoves(pos))
+	moves.Merge(getWallsMoves(pos))
 	return moves
 }
 
-func (pos *MutablePosition) getPawnMoves() *set.Set {
+func getPawnMoves(pos Position) *set.Set {
 	moves := set.New()
 	var pawn []rune
 	if pos.WhiteActive() {
@@ -23,15 +23,15 @@ func (pos *MutablePosition) getPawnMoves() *set.Set {
 	sideJumps := [][][]int32{{{0, -1}, {0, 1}}, {{-1, 0}, {1, 0}}, {{-1, 0}, {1, 0}}, {{0, -1}, {0, 1}}}
 	for i, dir := range directions {
 		move := []rune{pawn[0] + dir[0], pawn[1] + dir[1]}
-		if pos.blockedOrOutside(pawn, move) {
+		if blockedOrOutside(pos, pawn, move) {
 			continue
 		}
 		if string(move) == pos.White() || string(move) == pos.Black() {
 			jump := []rune{move[0] + dir[0], move[1] + dir[1]}
-			if pos.blockedOrOutside(move, jump) {
+			if blockedOrOutside(pos, move, jump) {
 				for _, dir2 := range sideJumps[i] {
 					sideJump := []rune{move[0] + dir2[0], move[1] + dir2[1]}
-					if pos.blockedOrOutside(move, sideJump) {
+					if blockedOrOutside(pos, move, sideJump) {
 						continue
 					}
 					moves.Add(string(sideJump))
@@ -46,7 +46,7 @@ func (pos *MutablePosition) getPawnMoves() *set.Set {
 	return moves
 }
 
-func (pos *MutablePosition) blockedOrOutside(init []rune, dest []rune) bool {
+func blockedOrOutside(pos Position, init []rune, dest []rune) bool {
 	if dest[0] < 'a' || dest[0] > 'i' || dest[1] < '1' || dest[1] > '9' {
 		return true
 	}
@@ -60,7 +60,7 @@ func (pos *MutablePosition) blockedOrOutside(init []rune, dest []rune) bool {
 		wall1 = string([]rune{smaller, init[1], 'v'})
 		wall2 = string([]rune{smaller, init[1] - 1, 'v'})
 	}
-	for _, move := range pos.moves {
+	for _, move := range pos.Walls() {
 		if move == wall1 || move == wall2 {
 			return true
 		}
@@ -75,7 +75,7 @@ func min(a int32, b int32) int32 {
 	return b
 }
 
-func (pos *MutablePosition) getWallsMoves() *set.Set {
+func getWallsMoves(pos Position) *set.Set {
 	moves := set.New()
 	var wallsLeft int
 	if pos.WhiteActive() {
@@ -91,29 +91,27 @@ func (pos *MutablePosition) getWallsMoves() *set.Set {
 				}
 			}
 		}
-		for _, move := range pos.moves {
-			if len(move) == 3 {
-				r := []rune(move)
-				r[2] = 'h'
+		for _, move := range pos.Walls() {
+			r := []rune(move)
+			r[2] = 'h'
+			moves.Remove(string(r))
+			r[2] = 'v'
+			moves.Remove(string(r))
+			r = []rune(move)
+			if r[2] == 'h' {
+				r[0] = rune(int(r[0]) - 1)
 				moves.Remove(string(r))
-				r[2] = 'v'
+				r[0] = rune(int(r[0]) + 2)
 				moves.Remove(string(r))
-				r = []rune(move)
-				if r[2] == 'h' {
-					r[0] = rune(int(r[0]) - 1)
-					moves.Remove(string(r))
-					r[0] = rune(int(r[0]) + 2)
-					moves.Remove(string(r))
-				} else {
-					r[1] = rune(int(r[1]) - 1)
-					moves.Remove(string(r))
-					r[1] = rune(int(r[1]) + 2)
-					moves.Remove(string(r))
-				}
+			} else {
+				r[1] = rune(int(r[1]) - 1)
+				moves.Remove(string(r))
+				r[1] = rune(int(r[1]) + 2)
+				moves.Remove(string(r))
 			}
 		}
 		for _, move := range set.StringSlice(moves) {
-			blocking := pos.blockingPawn(move)
+			blocking := blockingPawn(pos, move)
 			if blocking {
 				moves.Remove(move)
 			}
@@ -122,21 +120,21 @@ func (pos *MutablePosition) getWallsMoves() *set.Set {
 	return moves
 }
 
-func (pos *MutablePosition) blockingPawn(move string) bool {
+func blockingPawn(pos Position, move string) bool {
 	pos.Move(move)
 	defer pos.Takeback()
-	return !pos.legalPosition()
+	return !legalPosition(pos)
 }
 
-func (pos *MutablePosition) legalPosition() bool {
-	return pos.canReach(pos.White(), '9') && pos.canReach(pos.Black(), '1')
+func legalPosition(pos Position) bool {
+	return canReach(pos, pos.White(), '9') && canReach(pos, pos.Black(), '1')
 }
 
-func (pos *MutablePosition) canReach(start string, end rune) bool {
-	return pos.distanceToFinish(start, end) >= 0
+func canReach(pos Position, start string, end rune) bool {
+	return distanceToFinish(pos, start, end) >= 0
 }
 
-func (pos *MutablePosition) distanceToFinish(start string, end rune) int {
+func distanceToFinish(pos Position, start string, end rune) int {
 	if []rune(start)[1] == end {
 		return 0
 	}
@@ -150,7 +148,7 @@ func (pos *MutablePosition) distanceToFinish(start string, end rune) int {
 			s := []rune(square)
 			for _, dir := range directions {
 				n := []rune{s[0] + dir[0], s[1] + dir[1]}
-				if pos.blockedOrOutside(s, n) {
+				if blockedOrOutside(pos, s, n) {
 					continue
 				}
 				if s[1]+dir[1] == end {

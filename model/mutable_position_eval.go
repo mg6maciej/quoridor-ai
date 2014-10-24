@@ -8,8 +8,8 @@ func (pos *MutablePosition) Eval() int {
 	if []rune(pos.Black())[1] == '1' {
 		eval -= 1000000
 	}
-	eval += pos.distanceToFinish(pos.Black(), '1')
-	eval -= pos.distanceToFinish(pos.White(), '9')
+	eval += distanceToFinish(pos, pos.Black(), '1')
+	eval -= distanceToFinish(pos, pos.White(), '9')
 	eval -= 2 * pos.BlackWallsLeft()
 	eval += 2 * pos.WhiteWallsLeft()
 	return eval

@@ -30,6 +30,6 @@ func NewPosition(moves ...string) Position {
 	return pos
 }
 
-func Finished(pos Position) bool {
+func finished(pos Position) bool {
 	return []rune(pos.White())[1] == '9' || []rune(pos.Black())[1] == '1'
 }

@@ -73,13 +73,13 @@ func (pos *MutablePosition) Walls() []string {
 }
 
 func (pos *MutablePosition) Finished() bool {
-	return Finished(pos)
+	return finished(pos)
 }
 
 func (pos *MutablePosition) Eval() int {
-	return Eval(pos)
+	return eval(pos)
 }
 
 func (pos *MutablePosition) LegalMoves() *set.Set {
-	return LegalMoves(pos)
+	return legalMoves(pos)
 }

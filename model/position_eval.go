@@ -1,6 +1,6 @@
 package model
 
-func Eval(pos Position) int {
+func eval(pos Position) int {
 	eval := 0
 	if []rune(pos.White())[1] == '9' {
 		eval += 1000000

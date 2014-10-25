@@ -56,15 +56,15 @@ func (pos *ImmutablePosition) Walls() []string {
 }
 
 func (pos *ImmutablePosition) Finished() bool {
-	return Finished(pos)
+	return finished(pos)
 }
 
 func (pos *ImmutablePosition) Eval() int {
-	return Eval(pos)
+	return eval(pos)
 }
 
 func (pos *ImmutablePosition) LegalMoves() *set.Set {
-	return LegalMoves(pos)
+	return legalMoves(pos)
 }
 
 func (pos *ImmutablePosition) whiteAfterMove(move string) string {

@@ -4,7 +4,7 @@ import (
 	"gopkg.in/fatih/set.v0"
 )
 
-func LegalMoves(pos Position) *set.Set {
+func legalMoves(pos Position) *set.Set {
 	moves := set.New()
 	moves.Merge(getPawnMoves(pos))
 	moves.Merge(getWallsMoves(pos))

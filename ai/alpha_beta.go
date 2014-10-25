@@ -2,7 +2,6 @@ package ai
 
 import (
 	"github.com/mg6maciej/quoridor-ai/model"
-	"gopkg.in/fatih/set.v0"
 )
 
 func AlphaBeta(pos model.Position, depth int) string {
@@ -16,31 +15,29 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, str
 	}
 	if pos.WhiteActive() {
 		var bestMove string
-		for _, move := range set.StringSlice(pos.LegalMoves()) {
+		pos.LegalMoves().Each(func(item interface{}) bool {
+			move := item.(string)
 			child := pos.Move(move)
 			value, _ := alphaBetaImpl(child, depth-1, alpha, beta)
 			if alpha < value {
 				alpha = value
 				bestMove = move
 			}
-			if beta <= alpha {
-				break
-			}
-		}
+			return !(beta <= alpha)
+		})
 		return alpha, bestMove
 	} else {
 		var bestMove string
-		for _, move := range set.StringSlice(pos.LegalMoves()) {
+		pos.LegalMoves().Each(func(item interface{}) bool {
+			move := item.(string)
 			child := pos.Move(move)
 			value, _ := alphaBetaImpl(child, depth-1, alpha, beta)
 			if beta > value {
 				beta = value
 				bestMove = move
 			}
-			if beta <= alpha {
-				break
-			}
-		}
+			return !(beta <= alpha)
+		})
 		return beta, bestMove
 	}
 }

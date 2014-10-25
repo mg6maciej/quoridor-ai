@@ -26,6 +26,28 @@ func TestChoosesBetterDeep(t *testing.T) {
 	assert.Equal(t, "c1", move)
 }
 
+func TestChoosesBetterWhenWinning(t *testing.T) {
+	root := makeRoot().setChildren(
+		"c1", (&MockPosition{eval: 1000, finished: true}),
+		"c2", (&MockPosition{eval: 3}).setChildren(
+			"c21", (&MockPosition{eval: -1}),
+		),
+	)
+	move := AlphaBeta(root, 2)
+	assert.Equal(t, "c1", move)
+}
+
+func TestChoosesBetterWhenLosing(t *testing.T) {
+	root := makeRoot().setChildren(
+		"c1", (&MockPosition{eval: -1000, finished: true}),
+		"c2", (&MockPosition{eval: 3}).setChildren(
+			"c21", (&MockPosition{eval: -1}),
+		),
+	)
+	move := AlphaBeta(root, 2)
+	assert.Equal(t, "c2", move)
+}
+
 func makeRoot() *MockPosition {
 	return &MockPosition{evalFunc: func() int { panic("unsupported") }, whiteActive: true}
 }

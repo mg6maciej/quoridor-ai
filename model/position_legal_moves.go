@@ -123,7 +123,6 @@ func getWallsMoves(pos Position) *set.Set {
 func blockingPawn(pos Position, move string) bool {
 	pos = pos.Move(move)
 	blocking := !legalPosition(pos)
-	pos = pos.Takeback()
 	return blocking
 }
 

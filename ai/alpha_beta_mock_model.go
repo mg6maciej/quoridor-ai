@@ -10,16 +10,11 @@ type MockPosition struct {
 	evalFunc    func() int
 	children    map[string]*MockPosition
 	finished    bool
-	parent      *MockPosition
 	whiteActive bool
 }
 
 func (pos *MockPosition) Move(move string) model.Position {
 	return pos.children[move]
-}
-
-func (pos *MockPosition) Takeback() model.Position {
-	return pos.parent
 }
 
 func (pos *MockPosition) WhiteActive() bool {

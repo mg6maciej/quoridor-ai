@@ -17,9 +17,8 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, str
 	if pos.WhiteActive() {
 		var bestMove string
 		for _, move := range set.StringSlice(pos.LegalMoves()) {
-			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
-			pos = pos.Takeback()
+			child := pos.Move(move)
+			value, _ := alphaBetaImpl(child, depth-1, alpha, beta)
 			if alpha < value {
 				alpha = value
 				bestMove = move
@@ -32,9 +31,8 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, str
 	} else {
 		var bestMove string
 		for _, move := range set.StringSlice(pos.LegalMoves()) {
-			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
-			pos = pos.Takeback()
+			child := pos.Move(move)
+			value, _ := alphaBetaImpl(child, depth-1, alpha, beta)
 			if beta > value {
 				beta = value
 				bestMove = move

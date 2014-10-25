@@ -13,11 +13,6 @@ func (pos *MutablePosition) Move(move string) Position {
 	return pos
 }
 
-func (pos *MutablePosition) Takeback() Position {
-	pos.moves = pos.moves[:len(pos.moves)-1]
-	return pos
-}
-
 func (pos *MutablePosition) White() string {
 	l := len(pos.moves)
 	for i := l - 1 - (l+1)%2; i >= 0; i -= 2 {

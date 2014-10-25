@@ -6,7 +6,6 @@ import (
 
 type Position interface {
 	Move(move string) Position
-	Takeback() Position
 	White() string
 	Black() string
 	WhiteActive() bool

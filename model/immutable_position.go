@@ -5,7 +5,6 @@ import (
 )
 
 type ImmutablePosition struct {
-	parent         *ImmutablePosition
 	white          string
 	black          string
 	whiteActive    bool
@@ -16,7 +15,6 @@ type ImmutablePosition struct {
 
 func (pos *ImmutablePosition) Move(move string) Position {
 	child := &ImmutablePosition{
-		parent:         pos,
 		white:          pos.whiteAfterMove(move),
 		black:          pos.blackAfterMove(move),
 		whiteActive:    !pos.whiteActive,
@@ -25,10 +23,6 @@ func (pos *ImmutablePosition) Move(move string) Position {
 		walls:          pos.wallsAfterMove(move),
 	}
 	return child
-}
-
-func (pos *ImmutablePosition) Takeback() Position {
-	return pos.parent
 }
 
 func (pos *ImmutablePosition) White() string {

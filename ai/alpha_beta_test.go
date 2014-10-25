@@ -8,12 +8,12 @@ import (
 
 func TestMoveForwardAsFirstBestMove(t *testing.T) {
 	pos := model.NewPosition()
-	move := AlphaBeta(pos, 1)
+	move := AlphaBeta(pos, 1, model.Eval)
 	assert.Equal(t, "e2", move)
 }
 
 func TestMoveForwardAsSecondBestMove(t *testing.T) {
 	pos := model.NewPosition("e2")
-	move := AlphaBeta(pos, 1)
+	move := AlphaBeta(pos, 1, model.Eval)
 	assert.Equal(t, "e8", move)
 }

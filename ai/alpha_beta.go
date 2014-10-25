@@ -5,20 +5,22 @@ import (
 	"gopkg.in/fatih/set.v0"
 )
 
-func AlphaBeta(pos model.Position, depth int) string {
-	_, bestMove := alphaBetaImpl(pos, depth, -1000000000, 1000000000)
+type EvalFunc func(model.Position) int
+
+func AlphaBeta(pos model.Position, depth int, eval EvalFunc) string {
+	_, bestMove := alphaBetaImpl(pos, depth, eval, -1000000000, 1000000000)
 	return bestMove
 }
 
-func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, string) {
+func alphaBetaImpl(pos model.Position, depth int, eval EvalFunc, alpha int, beta int) (int, string) {
 	if depth == 0 || model.Finished(pos) {
-		return model.Eval(pos), ""
+		return eval(pos), ""
 	}
 	if pos.WhiteActive() {
 		var bestMove string
 		for _, move := range set.StringSlice(model.LegalMoves(pos)) {
 			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
+			value, _ := alphaBetaImpl(pos, depth-1, eval, alpha, beta)
 			pos = pos.Takeback()
 			if alpha < value {
 				alpha = value
@@ -33,7 +35,7 @@ func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, str
 		var bestMove string
 		for _, move := range set.StringSlice(model.LegalMoves(pos)) {
 			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
+			value, _ := alphaBetaImpl(pos, depth-1, eval, alpha, beta)
 			pos = pos.Takeback()
 			if beta > value {
 				beta = value

@@ -83,7 +83,7 @@ func (pos *ImmutablePosition) blackWallsLeftAfterMove(move string) int {
 
 func (pos *ImmutablePosition) wallsAfterMove(move string) []string {
 	if len(move) == 3 {
-		walls := make([]string, 0, len(pos.walls) + 1)
+		walls := make([]string, 0, len(pos.walls)+1)
 		walls = append(walls, pos.walls...)
 		walls = append(walls, move)
 		return walls

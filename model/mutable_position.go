@@ -9,8 +9,14 @@ type MutablePosition struct {
 }
 
 func (pos *MutablePosition) Move(move string) Position {
-	pos.moves = append(pos.moves, move)
-	return pos
+	return &MutablePosition{moves: pos.movesWithMove(move)}
+}
+
+func (pos *MutablePosition) movesWithMove(move string) []string {
+	moves := make([]string, len(pos.moves)+1)
+	copy(moves, pos.moves)
+	moves[len(moves)-1] = move
+	return moves
 }
 
 func (pos *MutablePosition) White() string {

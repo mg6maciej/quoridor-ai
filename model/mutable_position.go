@@ -1,5 +1,9 @@
 package model
 
+import (
+	"gopkg.in/fatih/set.v0"
+)
+
 type MutablePosition struct {
 	moves []string
 }
@@ -66,4 +70,16 @@ func (pos *MutablePosition) Walls() []string {
 		}
 	}
 	return walls
+}
+
+func (pos *MutablePosition) Finished() bool {
+	return Finished(pos)
+}
+
+func (pos *MutablePosition) Eval() int {
+	return Eval(pos)
+}
+
+func (pos *MutablePosition) LegalMoves() *set.Set {
+	return LegalMoves(pos)
 }

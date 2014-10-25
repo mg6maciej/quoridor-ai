@@ -1,5 +1,9 @@
 package model
 
+import (
+	"gopkg.in/fatih/set.v0"
+)
+
 type ImmutablePosition struct {
 	parent         *ImmutablePosition
 	white          string
@@ -49,6 +53,18 @@ func (pos *ImmutablePosition) BlackWallsLeft() int {
 
 func (pos *ImmutablePosition) Walls() []string {
 	return pos.walls
+}
+
+func (pos *ImmutablePosition) Finished() bool {
+	return Finished(pos)
+}
+
+func (pos *ImmutablePosition) Eval() int {
+	return Eval(pos)
+}
+
+func (pos *ImmutablePosition) LegalMoves() *set.Set {
+	return LegalMoves(pos)
 }
 
 func (pos *ImmutablePosition) whiteAfterMove(move string) string {

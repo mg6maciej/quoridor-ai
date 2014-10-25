@@ -5,26 +5,20 @@ import (
 	"gopkg.in/fatih/set.v0"
 )
 
-type EvalFunc func(model.Position) int
-
-type LegalMovesFunc func(model.Position) *set.Set
-
-type FinishedFunc func(model.Position) bool
-
-func AlphaBeta(pos model.Position, depth int, eval EvalFunc, legalMoves LegalMovesFunc, finished FinishedFunc) string {
-	_, bestMove := alphaBetaImpl(pos, depth, eval, legalMoves, finished, -1000000000, 1000000000)
+func AlphaBeta(pos model.Position, depth int) string {
+	_, bestMove := alphaBetaImpl(pos, depth, -1000000000, 1000000000)
 	return bestMove
 }
 
-func alphaBetaImpl(pos model.Position, depth int, eval EvalFunc, legalMoves LegalMovesFunc, finished FinishedFunc, alpha int, beta int) (int, string) {
-	if depth == 0 || finished(pos) {
-		return eval(pos), ""
+func alphaBetaImpl(pos model.Position, depth int, alpha int, beta int) (int, string) {
+	if depth == 0 || pos.Finished() {
+		return pos.Eval(), ""
 	}
 	if pos.WhiteActive() {
 		var bestMove string
-		for _, move := range set.StringSlice(legalMoves(pos)) {
+		for _, move := range set.StringSlice(pos.LegalMoves()) {
 			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, eval, legalMoves, finished, alpha, beta)
+			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos = pos.Takeback()
 			if alpha < value {
 				alpha = value
@@ -37,9 +31,9 @@ func alphaBetaImpl(pos model.Position, depth int, eval EvalFunc, legalMoves Lega
 		return alpha, bestMove
 	} else {
 		var bestMove string
-		for _, move := range set.StringSlice(legalMoves(pos)) {
+		for _, move := range set.StringSlice(pos.LegalMoves()) {
 			pos = pos.Move(move)
-			value, _ := alphaBetaImpl(pos, depth-1, eval, legalMoves, finished, alpha, beta)
+			value, _ := alphaBetaImpl(pos, depth-1, alpha, beta)
 			pos = pos.Takeback()
 			if beta > value {
 				beta = value

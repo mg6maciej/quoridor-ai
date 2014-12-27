@@ -3,8 +3,8 @@
 	"GoVersion": "go1.3.2",
 	"Deps": [
 		{
-			"ImportPath": "github.com/stretchr/testify/assert",
-			"Rev": "d6577e08ec30538639ac0ea38b562b6f250e9055"
+			"ImportPath": "github.com/assertgo/assert",
+			"Rev": "1a113feb572196df49ac611f3457e41c12e934b8"
 		},
 		{
 			"ImportPath": "gopkg.in/fatih/set.v0",

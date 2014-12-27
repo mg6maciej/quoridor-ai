@@ -3,19 +3,21 @@ package ai
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/assertgo/assert"
 )
 
 func TestChoosesBetterMove(t *testing.T) {
+	assert := assert.Setup(t)
 	root := makeRoot().setChildren(
 		"c1", &MockPosition{eval: 0},
 		"c2", &MockPosition{eval: 3},
 	)
 	move := AlphaBeta(root, 1)
-	assert.Equal(t, "c2", move)
+	assert.ThatString(move).IsEqualTo("c2")
 }
 
 func TestChoosesBetterDeep(t *testing.T) {
+	assert := assert.Setup(t)
 	root := makeRoot().setChildren(
 		"c1", (&MockPosition{eval: 0}).setChildren(
 			"c11", (&MockPosition{eval: 2}),
@@ -24,10 +26,11 @@ func TestChoosesBetterDeep(t *testing.T) {
 		),
 	)
 	move := AlphaBeta(root, 2)
-	assert.Equal(t, "c1", move)
+	assert.ThatString(move).IsEqualTo("c1")
 }
 
 func TestChoosesBetterWhenWinning(t *testing.T) {
+	assert := assert.Setup(t)
 	root := makeRoot().setChildren(
 		"c1", (&MockPosition{eval: 1000, finished: true}),
 		"c2", (&MockPosition{eval: 3}).setChildren(
@@ -35,10 +38,11 @@ func TestChoosesBetterWhenWinning(t *testing.T) {
 		),
 	)
 	move := AlphaBeta(root, 2)
-	assert.Equal(t, "c1", move)
+	assert.ThatString(move).IsEqualTo("c1")
 }
 
 func TestChoosesBetterWhenLosing(t *testing.T) {
+	assert := assert.Setup(t)
 	root := makeRoot().setChildren(
 		"c1", (&MockPosition{eval: -1000, finished: true}),
 		"c2", (&MockPosition{eval: 3}).setChildren(
@@ -46,7 +50,7 @@ func TestChoosesBetterWhenLosing(t *testing.T) {
 		),
 	)
 	move := AlphaBeta(root, 2)
-	assert.Equal(t, "c2", move)
+	assert.ThatString(move).IsEqualTo("c2")
 }
 
 func makeRoot() *MockPosition {

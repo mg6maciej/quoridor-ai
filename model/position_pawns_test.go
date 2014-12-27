@@ -3,39 +3,45 @@ package model
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/assertgo/assert"
 )
 
 func TestStartingPositionPawns(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition()
-	assert.Equal(t, "e1", pos.White())
-	assert.Equal(t, "e9", pos.Black())
+	assert.ThatString(pos.White()).IsEqualTo("e1")
+	assert.ThatString(pos.Black()).IsEqualTo("e9")
 }
 
 func TestStartingPositionActive(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition()
-	assert.True(t, pos.WhiteActive())
+	assert.ThatBool(pos.WhiteActive()).IsTrue()
 }
 
 func TestPositionAfterOneMove(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition("e2")
-	assert.Equal(t, "e2", pos.White())
-	assert.False(t, pos.WhiteActive())
+	assert.ThatString(pos.White()).IsEqualTo("e2")
+	assert.ThatBool(pos.WhiteActive()).IsFalse()
 }
 
 func TestPositionAfterWallMove(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition("e5h")
-	assert.Equal(t, "e1", pos.White())
+	assert.ThatString(pos.White()).IsEqualTo("e1")
 }
 
 func TestPositionAfterTwoMoves(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition("e2", "e8")
-	assert.Equal(t, "e2", pos.White())
-	assert.Equal(t, "e8", pos.Black())
+	assert.ThatString(pos.White()).IsEqualTo("e2")
+	assert.ThatString(pos.Black()).IsEqualTo("e8")
 }
 
 func TestPositionAfterThreeMoves(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition("e2", "e8", "e3")
-	assert.Equal(t, "e3", pos.White())
-	assert.Equal(t, "e8", pos.Black())
+	assert.ThatString(pos.White()).IsEqualTo("e3")
+	assert.ThatString(pos.Black()).IsEqualTo("e8")
 }

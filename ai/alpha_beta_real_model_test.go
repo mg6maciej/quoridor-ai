@@ -3,18 +3,20 @@ package ai
 import (
 	"testing"
 
+	"github.com/assertgo/assert"
 	"github.com/mg6maciej/quoridor-ai/model"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMoveForwardAsFirstBestMove(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := model.NewPosition()
 	move := AlphaBeta(pos, 1)
-	assert.Equal(t, "e2", move)
+	assert.ThatString(move).IsEqualTo("e2")
 }
 
 func TestMoveForwardAsSecondBestMove(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := model.NewPosition("e2")
 	move := AlphaBeta(pos, 1)
-	assert.Equal(t, "e8", move)
+	assert.ThatString(move).IsEqualTo("e8")
 }

@@ -3,11 +3,12 @@ package model
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/assertgo/assert"
 )
 
 func TestWhiteMovePawn(t *testing.T) {
+	assert := assert.Setup(t)
 	pos := NewPosition()
 	pos = pos.Move("e2")
-	assert.Equal(t, "e2", pos.White())
+	assert.ThatString(pos.White()).IsEqualTo("e2")
 }

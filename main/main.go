@@ -3,12 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mg6maciej/quoridor-ai/ai"
-	"github.com/mg6maciej/quoridor-ai/model"
 	"log"
 	"os"
 	"runtime/pprof"
 	"time"
+
+	"github.com/mg6maciej/quoridor-ai/ai"
+	"github.com/mg6maciej/quoridor-ai/model"
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")

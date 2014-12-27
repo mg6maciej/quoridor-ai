@@ -1,9 +1,10 @@
 package model
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/fatih/set.v0"
-	"testing"
 )
 
 func TestInitialLegalMoves(t *testing.T) {

@@ -1,9 +1,10 @@
 package ai
 
 import (
+	"testing"
+
 	"github.com/mg6maciej/quoridor-ai/model"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestMoveForwardAsFirstBestMove(t *testing.T) {
